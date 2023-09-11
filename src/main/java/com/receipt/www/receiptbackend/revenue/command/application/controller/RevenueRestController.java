@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping(value ="/rev")
+@RequestMapping(value ="/revenue")
 public class RevenueRestController {
 
 
