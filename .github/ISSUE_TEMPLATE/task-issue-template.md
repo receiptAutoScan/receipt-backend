@@ -7,9 +7,9 @@ assignees: ''
 
 ---
 
-내용:
+## Description:
 
-체크사항:
+## To-Do:
 - [ ] 
 - [ ] 
 
