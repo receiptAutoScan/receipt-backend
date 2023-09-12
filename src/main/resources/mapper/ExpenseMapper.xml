@@ -1,0 +1,5 @@
+<mapper namespace="com.receipt.www.receiptbackend.expense.query.infra.mapper.ExpenseMapper" xmlns="http://mybatis.org/schema/mybatis-mapper">
+    <select id="getAllExpenses" resultType="ExpenseEntity" resultMap="list">
+        SELECT * FROM expenses
+    </select>
+</mapper>
