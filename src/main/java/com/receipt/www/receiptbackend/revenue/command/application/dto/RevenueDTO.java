@@ -28,6 +28,9 @@ public class RevenueDTO {
         this.surtax = surtax;
     }
 
+    public RevenueDTO() {
+    }
+
     @Override
     public String toString() {
         return "Test{" +
