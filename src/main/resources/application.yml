@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  tomcat:
+      enabled: false
+
+spring:
+  devtools:
+    restart:
+      additional-paths: src/main/resources/**, src/main/java/**
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/receipt
+    username: admin101
+    password: receipt101r
+    hikari:
+      auto-commit: false
+  main:
+    allow-circular-references: true
+
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        '[format_sql]': true
+        hbm2ddl:
+          auto: update
+    hibernate:
+      ddl-auto: update
+
