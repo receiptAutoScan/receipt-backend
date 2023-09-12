@@ -37,7 +37,7 @@ public class ExpenseController {
 
     @PostMapping("/expense/json")
     public void createExpenseList(@RequestBody List<CreateExpenseDTO> createExpenseDTOList) {
-
+        System.out.println("dwqdwq");
         expenseService.createExpenseList(createExpenseDTOList);
     }
 
