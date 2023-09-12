@@ -3,41 +3,55 @@ package com.receipt.www.receiptbackend.expense.command.application.controller;
 import com.receipt.www.receiptbackend.expense.command.application.dto.CreateExpenseDTO;
 import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpenseDTO;
 import com.receipt.www.receiptbackend.expense.command.application.service.ExpenseService;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.awt.*;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.http.HttpClient;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ExpenseController {
     private final ExpenseService expenseService;
+    private final WebClient webClient;
 
-    public ExpenseController(ExpenseService expenseService) {
+    public ExpenseController(ExpenseService expenseService, WebClient.Builder webClientBuilder) {
         this.expenseService = expenseService;
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
     }
 
     @PostMapping("/expense")
-    public void processExpenseReceipt(@RequestBody List<Image> imageList) {
+    public void processExpenseReceiptImg(@RequestBody List<Image> imageList) {
+        // image 그대로 보냄
+        Mono<String> returnedData = webClient
+                .post()
+                .uri("/upload")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(imageList))
+                .retrieve()
+                .onStatus(
+                        HttpStatus::is4xxClientError,
+                        clientResponse -> {
+                            return Mono.error(new RuntimeException("Client Error: " + clientResponse.statusCode()));
+                        }
+                ).onStatus(
+                        HttpStatus::is5xxServerError,
+                        clientResponse -> {
+                            return Mono.error(new RuntimeException("Server Error: " + clientResponse.statusCode()));
+                        }
+                )
+                .bodyToMono(String.class);
 
+        // 받아온 사항들 insert 처리
+        createExpenseList(new ArrayList<>());
     }
 
-    @PostMapping("/expense/json")
+    @PostMapping("/expense/list")
     public void createExpenseList(@RequestBody List<CreateExpenseDTO> createExpenseDTOList) {
-        System.out.println("dwqdwq");
         expenseService.createExpenseList(createExpenseDTOList);
     }
 
