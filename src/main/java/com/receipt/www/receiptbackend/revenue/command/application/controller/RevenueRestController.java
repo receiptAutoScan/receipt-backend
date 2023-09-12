@@ -1,7 +1,11 @@
 package com.receipt.www.receiptbackend.revenue.command.application.controller;
 
 
+import com.receipt.www.receiptbackend.expense.command.application.dto.CreateExpenseDTO;
+import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpenseDTO;
+import com.receipt.www.receiptbackend.expense.command.application.service.ExpenseService;
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueDTO;
+import com.receipt.www.receiptbackend.revenue.command.application.service.RevenueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,22 +15,23 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping(value ="/revenue")
 public class RevenueRestController {
 
+    private final RevenueService revenueService;
 
-    @GetMapping(value = "/inquire",produces = "application/json; charset=utf-8")
-    public ResponseEntity<?> uploadExcel(@RequestBody Map<String , Object> maps){
-        System.out.println(maps);
-
-        return ResponseEntity.ok(maps);
+    public RevenueRestController(RevenueService revenueService) {
+        this.revenueService = revenueService;
     }
 
-    @DeleteMapping("/delete/{revenueNum}")
-    public ResponseEntity<?> deleteExcel(@PathVariable int revenueNum){
+    @PostMapping(value = "/revenue",produces = "application/json; charset=utf-8")
+    public void uploadExcel(@RequestBody Map<String , Object> data) {
+        System.out.println(data);
+//        revenueService.uploadExcel(data);
+    }
 
-        System.out.println(revenueNum);
+    @DeleteMapping("/revenue/{revenueNum}")
+    public void deleteExcel(@PathVariable Long revenueNum) {
 
-        return ResponseEntity.ok(revenueNum);
+        revenueService.deleteExcel(revenueNum);
     }
 }
