@@ -7,5 +7,7 @@
     </settings>
     <typeAliases>
         <typeAlias type="com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity" alias="ExpenseEntity"/>
+        <typeAlias type="com.receipt.www.receiptbackend.revenue.command.domain.aggregate.entity.RevenueEntity" alias="RevenueEntity"/>
+        <typeAlias type="com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueMonYearDTO" alias="RevenueMonYearDTO"/>
     </typeAliases>
 </configuration>

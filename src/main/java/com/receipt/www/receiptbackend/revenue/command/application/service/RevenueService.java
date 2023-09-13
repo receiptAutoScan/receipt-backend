@@ -1,16 +1,14 @@
 package com.receipt.www.receiptbackend.revenue.command.application.service;
 
 
-import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity;
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueDTO;
 import com.receipt.www.receiptbackend.revenue.command.domain.aggregate.entity.RevenueEntity;
-import com.receipt.www.receiptbackend.revenue.command.infra.repository.RevenueMapper;
+import com.receipt.www.receiptbackend.revenue.command.infra.repository.RevenueRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,11 +17,11 @@ import java.util.Map;
 
 @Service
 public class RevenueService {
-    RevenueMapper revenueMapper;
+    RevenueRepo revenueRepo;
 
     @Autowired
-    public RevenueService(RevenueMapper revenueMapper){
-        this.revenueMapper = revenueMapper;
+    public RevenueService(RevenueRepo revenueRepo){
+        this.revenueRepo = revenueRepo;
     }
     @Transactional
     public void uploadExcel(List<Map<String , Object>> excelData) throws ParseException {
@@ -45,13 +43,13 @@ public class RevenueService {
 
             RevenueEntity revenueEntity = new RevenueEntity(dataToDTO);
 
-            revenueMapper.save(revenueEntity);
+            revenueRepo.save(revenueEntity);
         }
     }
 
     @Transactional
     public void deleteExcel(Long revenueNum) {
 
-        revenueMapper.deleteById(revenueNum);
+        revenueRepo.deleteById(revenueNum);
     }
 }
