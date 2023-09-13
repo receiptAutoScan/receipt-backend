@@ -29,7 +29,7 @@ public class RevenueRestGetController {
     public RevenueRestGetController(RevenueGetService revenueGetService) {
         this.revenueGetService = revenueGetService;
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/revenueDay")
     public ResponseEntity<List<RevenueDTO>> inquireExcelDay() throws ParseException {
         HttpHeaders headers = new HttpHeaders();
@@ -37,7 +37,7 @@ public class RevenueRestGetController {
 
         return new ResponseEntity<>(revenueGetService.inquireExcelByDay(),headers, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/revenueMonth")
     public ResponseEntity<List<RevenueMonYearDTO>> inquireExcelMonth() throws ParseException {
         HttpHeaders headers = new HttpHeaders();
@@ -45,7 +45,7 @@ public class RevenueRestGetController {
 
         return new ResponseEntity<>(revenueGetService.inquireExcelByMonth(),headers, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/revenueYear")
     public ResponseEntity<List<RevenueMonYearDTO>> inquireExcelYear() throws ParseException {
         HttpHeaders headers = new HttpHeaders();
