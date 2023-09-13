@@ -28,7 +28,7 @@
                sum(revenue_day) as monYearDay,
                sum(revenue_sale) as monYearSale,
                sum(revenue_total) as monYearTotal,
-               sum(surtax) as monYearSurtax
+               sum(surtax) as monYearlySurtax
         FROM receipt.revenue
         group by date_format(revenue_date,'%Y')
         order by date_format(revenue_date,'%Y');

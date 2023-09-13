@@ -9,9 +9,11 @@ import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpe
 import com.receipt.www.receiptbackend.expense.command.application.service.ExpenseService;
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueDTO;
 import com.receipt.www.receiptbackend.revenue.command.application.service.RevenueService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -30,23 +32,29 @@ public class RevenueRestController {
     }
 
     @PostMapping(value = "/revenue")
-    public void uploadExcel(@RequestBody Map<String , Object> data) {
-        List<Map<String , Object >> dataset;
+    public ResponseEntity<?> uploadExcel(@RequestBody List<Map<String, Object>> data) {
+    //      List<Map<String , Object >> dataset;
+    //      dataset = new ObjectMapper().readValue((String) data.get("body"),new TypeReference<List<Map<String, Object>>>() { });
+        HttpStatus status;
         try {
-            dataset = new ObjectMapper().readValue((String) data.get("body"),new TypeReference<List<Map<String, Object>>>() { });
-            System.out.println(dataset);
-            revenueService.uploadExcel(dataset);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            revenueService.uploadExcel(data);
+            status = HttpStatus.CREATED;
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            status = HttpStatus.BAD_REQUEST;
         }
 
+        return ResponseEntity
+                .status(status).build();
     }
 
     @DeleteMapping("/revenue/{revenueNum}")
-    public void deleteExcel(@PathVariable Long revenueNum) {
-
+    public ResponseEntity<?> deleteExcel(@PathVariable Long revenueNum) {
+        HttpStatus status;
         revenueService.deleteExcel(revenueNum);
+        status = HttpStatus.CREATED;
+
+        return ResponseEntity
+                .status(status).build();
+
     }
 }
