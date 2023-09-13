@@ -1,4 +1,4 @@
-package com.receipt.www.receiptbackend.revenue.command.application.dto;
+package com.receipt.www.receiptbackend.revenue.query.application.dto;
 
 import java.time.LocalDate;
 
