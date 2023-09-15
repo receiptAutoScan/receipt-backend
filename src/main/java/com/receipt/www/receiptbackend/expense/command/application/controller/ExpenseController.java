@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,30 +29,30 @@ public class ExpenseController {
 
     @PostMapping("/expense")
     public void processExpenseReceiptImg(@RequestParam("images") List<MultipartFile> imageList) {
-        System.out.println("imageList: " + imageList);
 
         // image 그대로 보냄
-//        Mono<String> returnedData = webClient
-//                .post()
-//                .uri("/upload")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(BodyInserters.fromValue(imageList))
-//                .retrieve()
-//                .onStatus(
-//                        HttpStatus::is4xxClientError,
-//                        clientResponse -> {
-//                            return Mono.error(new RuntimeException("Client Error: " + clientResponse.statusCode()));
-//                        }
-//                ).onStatus(
-//                        HttpStatus::is5xxServerError,
-//                        clientResponse -> {
-//                            return Mono.error(new RuntimeException("Server Error: " + clientResponse.statusCode()));
-//                        }
-//                )
-//                .bodyToMono(String.class);
-//
-//        // 받아온 사항들 insert 처리
-//        createExpenseList(new ArrayList<>());
+        Mono<String> returnedData = webClient
+                .post()
+                .uri("http://172.17.80.174:5000/upload")
+                .headers(headers -> {
+                    headers.add("Content-Type", "multipart/form-data");
+                })
+                .body(BodyInserters.fromMultipartData("file", imageList.get(0)))
+                .retrieve()
+                .onStatus(
+                        HttpStatus::is4xxClientError,
+                        clientResponse -> {
+                            return Mono.error(new RuntimeException("Client Error: " + clientResponse.statusCode()));
+                        }
+                ).onStatus(
+                        HttpStatus::is5xxServerError,
+                        clientResponse -> {
+                            return Mono.error(new RuntimeException("Server Error: " + clientResponse.statusCode()));
+                        }
+                )
+                .bodyToMono(String.class);
+
+        returnedData.block();
     }
 
     @PostMapping("/expense/list")
