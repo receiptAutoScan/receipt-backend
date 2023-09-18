@@ -10,8 +10,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/receipt
-    username: receipt
-    password: receipt
+    username: admin101
+    password: receipt101r
     hikari:
       auto-commit: false
   main:
