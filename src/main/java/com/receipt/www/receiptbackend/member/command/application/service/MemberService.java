@@ -6,6 +6,7 @@ import com.receipt.www.receiptbackend.member.command.infra.repository.MemberRepo
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberService {
@@ -30,10 +31,11 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public Long registNewUser(MemberDTO newMember) {
 
         newMember.setMemberName("새로운회원" +(Math.random() * 100 + 1));
 
-        return memberRepository.save(modelMapper.map(newMember, Member.class)).getMemberCode();
+        return memberRepository.save(modelMapper.map(newMember, Member.class)).getMemberNum();
     }
 }

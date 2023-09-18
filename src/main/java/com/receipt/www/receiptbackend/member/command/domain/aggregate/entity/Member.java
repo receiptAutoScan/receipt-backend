@@ -22,8 +22,8 @@ public class Member {
             strategy = GenerationType.SEQUENCE,
             generator = "MEMBER_SEQ_GENERATOR"
     )
-    @Column(name = "MEMBER_CODE")
-    private Long memberCode;
+    @Column(name = "MEMBER_NUM")
+    private Long memberNum;
 
     @Column(name = "MEMBER_NICKNAME", unique = true)
     private String memberNickname;
@@ -61,8 +61,8 @@ public class Member {
 
     public Member() {}
 
-    public Member(Long memberCode, String memberNickname, String socialLogin, String socialId, String accessToken, String refreshToken, String joinDate, String lastAccessDate) {
-        this.memberCode = memberCode;
+    public Member(Long memberNum, String memberNickname, String socialLogin, String socialId, String accessToken, String refreshToken, String joinDate, String lastAccessDate) {
+        this.memberNum = memberNum;
         this.memberNickname = memberNickname;
         this.socialLogin = socialLogin;
         this.socialId = socialId;
@@ -72,12 +72,12 @@ public class Member {
         this.lastAccessDate = lastAccessDate;
     }
 
-    public Long getMemberCode() {
-        return memberCode;
+    public Long getMemberNum() {
+        return memberNum;
     }
 
-    public void setMemberCode(Long memberCode) {
-        this.memberCode = memberCode;
+    public void setMemberNum(Long memberCode) {
+        this.memberNum = memberCode;
     }
 
     public String getMemberNickname() {
@@ -139,7 +139,7 @@ public class Member {
     @Override
     public String toString() {
         return "Member{" +
-                "memberCode=" + memberCode +
+                "memberNum=" + memberNum +
                 ", memberNickname='" + memberNickname + '\'' +
                 ", socialLogin='" + socialLogin + '\'' +
                 ", socialId='" + socialId + '\'' +

@@ -41,6 +41,9 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.6.2'
     implementation 'org.apache.httpcomponents:httpclient:4.3.4'
+    implementation 'com.auth0:java-jwt:4.2.1'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
