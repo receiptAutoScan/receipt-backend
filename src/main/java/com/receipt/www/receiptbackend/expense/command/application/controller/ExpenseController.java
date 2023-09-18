@@ -20,39 +20,16 @@ import java.util.List;
 @RestController
 public class ExpenseController {
     private final ExpenseService expenseService;
-    private final WebClient webClient;
 
-    public ExpenseController(ExpenseService expenseService, WebClient.Builder webClientBuilder) {
+    public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
     }
 
     @PostMapping("/expense")
-    public void processExpenseReceiptImg(@RequestParam("images") List<MultipartFile> imageList) {
+    public void processExpenseReceiptImg(@RequestParam("images") MultipartFile[] imageList) {
 
-        // image 그대로 보냄
-        Mono<String> returnedData = webClient
-                .post()
-                .uri("http://172.17.80.174:5000/upload")
-                .headers(headers -> {
-                    headers.add("Content-Type", "multipart/form-data");
-                })
-                .body(BodyInserters.fromMultipartData("file", imageList.get(0)))
-                .retrieve()
-                .onStatus(
-                        HttpStatus::is4xxClientError,
-                        clientResponse -> {
-                            return Mono.error(new RuntimeException("Client Error: " + clientResponse.statusCode()));
-                        }
-                ).onStatus(
-                        HttpStatus::is5xxServerError,
-                        clientResponse -> {
-                            return Mono.error(new RuntimeException("Server Error: " + clientResponse.statusCode()));
-                        }
-                )
-                .bodyToMono(String.class);
+        expenseService.processReceiptImg(imageList);
 
-        returnedData.block();
     }
 
     @PostMapping("/expense/list")
