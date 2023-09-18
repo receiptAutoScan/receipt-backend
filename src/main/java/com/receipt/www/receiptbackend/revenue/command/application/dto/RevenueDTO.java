@@ -3,7 +3,6 @@ package com.receipt.www.receiptbackend.revenue.command.application.dto;
 import java.time.LocalDate;
 
 public class RevenueDTO {
-    private int revenueNum;
     private LocalDate revenueDate;
     private String revenueDay;
     private int revenueTotal;
@@ -15,8 +14,7 @@ public class RevenueDTO {
     private int surtax;
 
 
-    public RevenueDTO(int revenueNum, LocalDate revenueDate, String revenueDay, int revenueTotal, int revenueSale, int revenueActual, int receiptNum, int receiptPrice, int receiptValue, int surtax) {
-        this.revenueNum = revenueNum;
+    public RevenueDTO(LocalDate revenueDate, String revenueDay, int revenueTotal, int revenueSale, int revenueActual, int receiptNum, int receiptPrice, int receiptValue, int surtax) {
         this.revenueDate = revenueDate;
         this.revenueDay = revenueDay;
         this.revenueTotal = revenueTotal;
@@ -28,10 +26,12 @@ public class RevenueDTO {
         this.surtax = surtax;
     }
 
+    public RevenueDTO() {
+    }
+
     @Override
     public String toString() {
         return "Test{" +
-                "revenueNum=" + revenueNum +
                 ", revenueDate=" + revenueDate +
                 ", revenueDay='" + revenueDay + '\'' +
                 ", revenueTotal=" + revenueTotal +
@@ -42,14 +42,6 @@ public class RevenueDTO {
                 ", receiptValue=" + receiptValue +
                 ", surtax=" + surtax +
                 '}';
-    }
-
-    public int getRevenueNum() {
-        return revenueNum;
-    }
-
-    public void setRevenueNum(int revenueNum) {
-        this.revenueNum = revenueNum;
     }
 
     public LocalDate getRevenueDate() {

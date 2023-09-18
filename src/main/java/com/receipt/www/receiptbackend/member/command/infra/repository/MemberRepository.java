@@ -2,12 +2,14 @@ package com.receipt.www.receiptbackend.member.command.infra.repository;
 
 import com.receipt.www.receiptbackend.member.command.domain.aggregate.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Member findBySocialId(String socialLogin, long socialid);
+    @Query("SELECT m FROM Member AS m WHERE m.socialLogin LIKE :socialLogin AND m.socialId= :socialId")
+    Member findBySocialId(String socialLogin, long socialId);
 
-    Member findByMemberNum(int memberNum);
+
 
 
 }

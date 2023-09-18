@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.receipt.www.receiptbackend.revenue.query.infra.mapper.RevenueMapper">
+    <select id="getAllRevenues" resultType="RevenueEntity">
+        SELECT * FROM revenue
+    </select>
+    <select id="getAllRevenuesByMonth" resultType="RevenueMonYearDTO">
+        SELECT date_format(revenue_date,'%Y-%m') As monYearDate,
+               sum(receipt_num) as monYearReceiptNum,
+               sum(receipt_price) as monYearReceiptPrice,
+               sum(receipt_value) as monYearReceiptValue,
+               sum(revenue_actual) as monYearActual,
+               sum(revenue_day) as monYearDay,
+               sum(revenue_sale) as monYearSale,
+               sum(revenue_total) as monYearTotal,
+               sum(surtax) as monYearSurtax
+        FROM receipt.revenue
+        group by date_format(revenue_date,'%Y-%m')
+        order by date_format(revenue_date,'%Y-%m');
+    </select>
+    <select id="getAllRevenuesByYear" resultType="RevenueMonYearDTO">
+        SELECT date_format(revenue_date,'%Y') As monYearDate,
+               sum(receipt_num) as monYearReceiptNum,
+               sum(receipt_price) as monYearReceiptPrice,
+               sum(receipt_value) as monYearReceiptValue,
+               sum(revenue_actual) as monYearActual,
+               sum(revenue_day) as monYearDay,
+               sum(revenue_sale) as monYearSale,
+               sum(revenue_total) as monYearTotal,
+               sum(surtax) as monYearlySurtax
+        FROM receipt.revenue
+        group by date_format(revenue_date,'%Y')
+        order by date_format(revenue_date,'%Y');
+    </select>
+</mapper>
