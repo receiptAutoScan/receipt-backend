@@ -5,6 +5,7 @@ import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpe
 import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity;
 import com.receipt.www.receiptbackend.expense.command.infra.repository.ExpenseRepository;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -65,16 +66,8 @@ public class ExpenseService {
         MultiValueMap<String, Object> formData = new LinkedMultiValueMap<>();
 
         for (MultipartFile image : imageList) {
-            try {
-                byte[] imageBytes = image.getBytes();
-                Resource resource = new ByteArrayResource(imageBytes);
-
-                // Add the file to the form data
-                formData.add("files", new HttpEntity<>(resource));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                formData.add("files1", new FileSystemResource("C:\\Users\\user\\Desktop\\projects\\k1.jpg"));
+                formData.add("files1", new FileSystemResource("C:\\Users\\user\\Desktop\\projects\\k2.jpg"));
         }
 
         // Create a request entity with headers and form data
@@ -82,7 +75,7 @@ public class ExpenseService {
 
         // Send a POST request to the server
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                "http://192.168.0.8:5000/upload",
+                "http://192.168.0.44:5000/upload",
                 HttpMethod.POST,
                 requestEntity,
                 String.class
