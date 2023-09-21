@@ -28,6 +28,12 @@ public class ExpenseController {
         expenseService.processReceiptImg(imageList);
     }
 
+    @PostMapping("/chatbot")
+    public void chatbotConnect(@RequestParam String message) {
+        System.out.println("message: " + message);
+        expenseService.chatbotConnect(message);
+    }
+
     @PostMapping("/expense/list")
     public void createExpenseList(@RequestBody List<CreateExpenseDTO> createExpenseDTOList) {
         expenseService.createExpenseList(createExpenseDTOList);
