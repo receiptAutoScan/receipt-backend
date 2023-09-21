@@ -4,9 +4,18 @@ import com.receipt.www.receiptbackend.expense.command.application.dto.CreateExpe
 import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpenseDTO;
 import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity;
 import com.receipt.www.receiptbackend.expense.command.infra.repository.ExpenseRepository;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -45,4 +54,35 @@ public class ExpenseService {
         expenseRepository.deleteById(expenseId);
     }
 
+    public void processReceiptImg(MultipartFile[] imageList) {
+        // Create a RestTemplate instance
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Create headers with content type as multipart/form-data
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        // Create a MultiValueMap to store form data
+        MultiValueMap<String, Object> formData = new LinkedMultiValueMap<>();
+
+        for (MultipartFile image : imageList) {
+                formData.add("files1", new FileSystemResource("C:\\Users\\user\\Desktop\\projects\\k1.jpg"));
+                formData.add("files1", new FileSystemResource("C:\\Users\\user\\Desktop\\projects\\k2.jpg"));
+        }
+
+        // Create a request entity with headers and form data
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(formData, headers);
+
+        // Send a POST request to the server
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                "http://192.168.0.44:5000/upload",
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+
+        // Retrieve the response body
+        String response = responseEntity.getBody();
+        System.out.println(response);
+    }
 }
