@@ -29,9 +29,9 @@ public class ExpenseController {
     }
 
     @PostMapping("/chatbot")
-    public void chatbotConnect(@RequestParam String message) {
+    public String chatbotConnect(@RequestParam String message) {
         System.out.println("message: " + message);
-        expenseService.chatbotConnect(message);
+        return expenseService.chatbotConnect(message);
     }
 
     @PostMapping("/expense/list")
@@ -42,9 +42,7 @@ public class ExpenseController {
     @PutMapping("/expense/{expenseId}")
     public void updateExpense(@PathVariable Long expenseId, @RequestBody UpdateExpenseDTO updateExpenseDTO) {
 
-        updateExpenseDTO.setExpenseId(expenseId);
-
-        expenseService.updateExpense(updateExpenseDTO);
+        expenseService.updateExpense(expenseId, updateExpenseDTO);
     }
 
     @DeleteMapping("/expense/{expenseId}")

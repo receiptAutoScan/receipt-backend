@@ -6,8 +6,6 @@ import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.Ex
 import com.receipt.www.receiptbackend.expense.command.infra.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +19,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
@@ -48,9 +45,9 @@ public class ExpenseService {
     }
 
     @Transactional
-    public void updateExpense(UpdateExpenseDTO updateExpenseDTO) {
+    public void updateExpense(Long expenseId, UpdateExpenseDTO updateExpenseDTO) {
 
-        expenseRepository.getReferenceById(updateExpenseDTO.getExpenseId());
+        expenseRepository.getReferenceById(expenseId);
 
         ExpenseEntity expenseEntity = new ExpenseEntity(updateExpenseDTO);
 
@@ -107,19 +104,19 @@ public class ExpenseService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(formData, headers);
 
         // Send a POST request to the server
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(
-//                "http://192.168.0.3:5000/upload",
-//                HttpMethod.POST,
-//                requestEntity,
-//                String.class
-//        );
-//
-//        // Retrieve the response body
-//        String response = responseEntity.getBody();
-//        System.out.println(response);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                "http://192.168.0.43:5000/upload",
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+
+        // Retrieve the response body
+        String response = responseEntity.getBody();
+        System.out.println(response);
     }
 
-    public void chatbotConnect(String message) {
+    public String chatbotConnect(String message) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -135,7 +132,7 @@ public class ExpenseService {
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                "http://192.168.0.3:5000/chatbot",
+                "http://192.168.0.43:5000/chatbot",
                 HttpMethod.POST,
                 requestEntity,
                 String.class
@@ -143,5 +140,7 @@ public class ExpenseService {
 
         String response = responseEntity.getBody();
         System.out.println(response);
+
+        return response;
     }
 }
