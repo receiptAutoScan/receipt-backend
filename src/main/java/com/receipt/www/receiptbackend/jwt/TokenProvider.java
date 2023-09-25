@@ -23,10 +23,11 @@ public class TokenProvider {
 
     private static final Logger log = LoggerFactory.getLogger(TokenProvider.class);
     private static final String AUTHORITIES_KEY = "Auth";
-    private static final String BEARER_TYPE ="bearer";
+    private static final String BEARER_TYPE = "bearer";
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 21599;	// 30분 정도가 이상적이나 Redis 사용 이전까지는 카카오 액세스 토큰과 시간을 같게 함
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 21599;
     private final UserDetailsService userDetailsService;
+
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey, UserDetailsService userDetailsService) {
@@ -35,13 +36,15 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public AccessTokenDTO generateMemberTokenDTO(MemberDTO foundMember, int memberNum) {
+    public AccessTokenDTO generateMemberTokenDTO(MemberDTO foundmember, int memberNum) {
+        log.info("[TokenProvider] generateTokenDto Start ===================================");
 
         Claims claims = Jwts
                 .claims()
-                .setSubject(String.valueOf(foundMember.getMemberNum()));
+                .setSubject(String.valueOf(foundmember.getMemberId()));
         long now = (new Date()).getTime();
 
+        // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String jwtToken = Jwts.builder()
                 .setClaims(claims)
@@ -49,15 +52,28 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return new AccessTokenDTO(BEARER_TYPE, memberNum, jwtToken,
+        return new AccessTokenDTO(BEARER_TYPE, foundmember.getMemberNum(), jwtToken,
                 accessTokenExpiresIn.getTime());
     }
 
     public Authentication getAuthentication(String accessToken) {
 
+        /* 토큰 복호화 */
+        Claims claims = parseClaims(accessToken);
+
+        System.out.println("claims = " + claims);
+
+        /* 클레임에서 권한 정보 가져오기 */
+//		Collection<? extends GrantedAuthority> authorities =
+//				Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+//						.map(SimpleGrantedAuthority::new)
+//						.collect(Collectors.toList());
+//		log.info("[TokenProvider] authorities : {}", authorities);
+        // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(accessToken));
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+//		return null;
     }
 
     private String getUserId(String accessToken) {
@@ -89,26 +105,12 @@ public class TokenProvider {
         }
     }
 
+
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
-        }
-    }
-
-    public int getMemberNumFromToken(String token) {
-        try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            // Subject에 저장된 memberNum 값을 int로 변환하여 반환합니다.
-            return Integer.parseInt(claims.getSubject());
-        } catch (Exception e) {
-            throw new TokenException("JWT 토큰에서 memberNum 값을 추출하는 중 오류가 발생했습니다.", e);
         }
     }
 }

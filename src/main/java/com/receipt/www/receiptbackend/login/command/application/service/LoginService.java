@@ -10,7 +10,10 @@ import com.receipt.www.receiptbackend.login.command.application.dto.RenewTokenDT
 import com.receipt.www.receiptbackend.login.command.infra.repository.LoginRepository;
 import com.receipt.www.receiptbackend.member.command.application.dto.MemberDTO;
 import com.receipt.www.receiptbackend.member.command.application.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,8 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
+@Slf4j
 @Service
 public class LoginService {
 
@@ -47,12 +49,12 @@ public class LoginService {
         rt.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-type", "application/x-www.form-urlencoded;charset=utf-8");
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "a827fafef171f8ca2395cb11a60e3998");
-        params.add("redirect_uri", "http://localhost:8080/auth/kakao/callback");
+        params.add("client_id", "3648db810f8f9eaf95065298a719a4f8");
+        params.add("redirect_uri", "http://localhost:3000/auth/kakao/callback");
         params.add("code", code);
 
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
@@ -67,12 +69,12 @@ public class LoginService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         OauthTokenDTO oauthToken = null;
-
         try {
             oauthToken = objectMapper.readValue(accessTokenResponse.getBody(), OauthTokenDTO.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
         return oauthToken;
     }
 
@@ -82,12 +84,12 @@ public class LoginService {
 
         MemberDTO foundmember = new MemberDTO();
 
-        if (memberService.findBySocialId("KAKAO", kakaoProfileDTO.getId()) == null) {
+        if (memberService.findBySocialId("KAKAO", String.valueOf(kakaoProfileDTO.getId())) == null) {
 
             MemberDTO newMember = new MemberDTO();
 
             newMember.setSocialLogin("KAKAO");
-            newMember.setSocialId(kakaoProfileDTO.getId());
+            newMember.setSocialId(String.valueOf(kakaoProfileDTO.getId()));
             newMember.setRefreshToken(oauthToken.getRefresh_token());
             newMember.setAccessToken(oauthToken.getAccess_token());
             newMember.setSignUpDate(LocalDateTime.now());
@@ -97,7 +99,7 @@ public class LoginService {
             memberService.registNewUser(newMember);
         }
 
-        foundmember = memberService.findBySocialId("KAKAO", kakaoProfileDTO.getId());
+        foundmember = memberService.findBySocialId("KAKAO", String.valueOf(kakaoProfileDTO.getId()));
 
         Date accessExpireDate = new Date(foundmember.getAccessTokenExpireDate());
 
@@ -119,7 +121,7 @@ public class LoginService {
         return tokenProvider.generateMemberTokenDTO(foundmember, memberNum);
     }
 
-    private RenewTokenDTO renewKakaoToken(MemberDTO foundmember) {
+    public RenewTokenDTO renewKakaoToken(MemberDTO foundmember) {
 
         RestTemplate rt = new RestTemplate();
         rt.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
@@ -129,7 +131,7 @@ public class LoginService {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "refresh_token");
-        params.add("client_id", "a827fafef171f8ca2395cb11a60e3998");
+        params.add("client_id", "3648db810f8f9eaf95065298a719a4f8");
         params.add("refresh_token", foundmember.getRefreshToken());
 
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
@@ -154,13 +156,12 @@ public class LoginService {
         return renewToken;
     }
 
-    private KakaoProfileDTO findKakaoProfile(String accessToken) {
+    public KakaoProfileDTO findKakaoProfile(String accessToken) {
 
         RestTemplate rt = new RestTemplate();
-        rt.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("authorization", "Bearer" + accessToken);
+        headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest =
@@ -179,7 +180,7 @@ public class LoginService {
         try {
             kakaoProfileDTO = objectMapper.readValue(kakaoProfileResponse.getBody(),
                     KakaoProfileDTO.class);
-        } catch(JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 

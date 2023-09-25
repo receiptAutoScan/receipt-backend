@@ -9,12 +9,13 @@ public class AccessTokenDTO {
 
     public AccessTokenDTO() {}
 
-    public AccessTokenDTO(String grantType, long memberId, String accessToken, long accessTokenExpriesIn) {
+    public AccessTokenDTO(String grantType, long memberNum, String accessToken, long accessTokenExpriesIn) {
         this.grantType = grantType;
-        this.memberId = memberId;
+        this.memberId = memberNum;
         this.accessToken = accessToken;
         this.accessTokenExpriesIn = accessTokenExpriesIn;
     }
+
 
     public String getGrantType() {
         return grantType;
@@ -24,9 +25,7 @@ public class AccessTokenDTO {
         this.grantType = grantType;
     }
 
-    public long getMemberId() {
-        return memberId;
-    }
+    public long getMemberId() { return memberId; }
 
     public void setMemberId(long memberId) {
         this.memberId = memberId;
@@ -58,5 +57,3 @@ public class AccessTokenDTO {
                 '}';
     }
 }
-
-

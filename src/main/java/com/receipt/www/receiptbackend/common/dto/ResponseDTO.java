@@ -1,49 +1,20 @@
 package com.receipt.www.receiptbackend.common.dto;
 
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
 public class ResponseDTO {
 
-    private int status;
+    private int httpStatus;
     private String message;
-    private Object result;
+    private Map<String, Object> results;
 
-    public ResponseDTO(HttpStatus status, String message, Object result) {
-        this.status = status.value();
-        this.message = message;
-        this.result = result;
-    }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
-    }
-
-    @Override
-    public String toString() {
-        return "ResponseDTO{" +
-                "status=" + status +
-                ", message='" + message + '\'' +
-                ", result=" + result +
-                '}';
-    }
 }

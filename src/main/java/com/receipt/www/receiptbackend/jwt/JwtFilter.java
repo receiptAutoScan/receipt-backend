@@ -6,6 +6,8 @@ import com.receipt.www.receiptbackend.exception.ApiExceptionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +24,8 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "bearer";
     private static final Logger log = LoggerFactory.getLogger(OncePerRequestFilter.class);
     private final TokenProvider tokenProvider;
+
+    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v1/login/**");
 
     public JwtFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
@@ -77,10 +81,11 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 
         String path = request.getRequestURI();
-        if("/api/v1/login/kakaoCode".equals(path)) {
+
+        if("/api/v1/login/kakaocode".equals(path)) {
             return true;
         } else if("/api/v1/login/renew".equals(path)) {
             return true;
