@@ -10,8 +10,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/receipt
-    username: admin101
-    password: receipt101r
+    username: receipt
+    password: receipt
     hikari:
       auto-commit: false
   main:
@@ -28,6 +28,14 @@ spring:
     hibernate:
       ddl-auto: update
 
+  servlet:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 10MB
+
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+
+jwt:
+    secret: asdfjp298pafo1320efqw0udvnh0er0h412r08byfdq9dsvh02143908hfeqwn80fdqs0nfdqs0n412013rq0nqefn08dfas0das730732g86923kjefho43y592y095r2wofhw92yt832y5r920woqhjfwoty28rt02ty230hwot92ty0923752rywohr9wyf823y8329yt0wyf9stgf932y20gfy9w8yh28it2y3y239836y25720hw8fy83r49y23y8
