@@ -29,14 +29,9 @@ public class RevenueGetService {
         for(RevenueEntity revenueEntity : revenueEntities){
             revenueDTOList.add(new RevenueDTO(
                     revenueEntity.getRevenueDate(),
-                    revenueEntity.getRevenueDay(),
-                    revenueEntity.getRevenueTotal(),
-                    revenueEntity.getRevenueSale(),
-                    revenueEntity.getRevenueActual(),
-                    revenueEntity.getReceiptNum(),
-                    revenueEntity.getReceiptPrice(),
-                    revenueEntity.getReceiptValue(),
-                    revenueEntity.getSurtax()
+                    revenueEntity.getRevenuePoint(),
+                    revenueEntity.getRevenueType(),
+                    revenueEntity.getRevenuePrice()
             ));
         }
         return revenueDTOList;
