@@ -1,47 +1,29 @@
 package com.receipt.www.receiptbackend.revenue.command.application.dto;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class RevenueDTO {
+
+
     private LocalDate revenueDate;
-    private String revenueDay;
-    private int revenueTotal;
-    private int revenueSale;
-    private int revenueActual;
-    private int receiptNum;
-    private int receiptPrice;
-    private int receiptValue;
-    private int surtax;
+
+    private int revenuePrice;
+
+    private String revenueType;
+
+    private String revenuePoint;
 
 
-    public RevenueDTO(LocalDate revenueDate, String revenueDay, int revenueTotal, int revenueSale, int revenueActual, int receiptNum, int receiptPrice, int receiptValue, int surtax) {
-        this.revenueDate = revenueDate;
-        this.revenueDay = revenueDay;
-        this.revenueTotal = revenueTotal;
-        this.revenueSale = revenueSale;
-        this.revenueActual = revenueActual;
-        this.receiptNum = receiptNum;
-        this.receiptPrice = receiptPrice;
-        this.receiptValue = receiptValue;
-        this.surtax = surtax;
-    }
 
     public RevenueDTO() {
     }
 
-    @Override
-    public String toString() {
-        return "Test{" +
-                ", revenueDate=" + revenueDate +
-                ", revenueDay='" + revenueDay + '\'' +
-                ", revenueTotal=" + revenueTotal +
-                ", revenueSale=" + revenueSale +
-                ", revenueActual=" + revenueActual +
-                ", receiptNum=" + receiptNum +
-                ", receiptPrice=" + receiptPrice +
-                ", receiptValue=" + receiptValue +
-                ", surtax=" + surtax +
-                '}';
+    public RevenueDTO(LocalDate revenueDate, String revenuePoint, String revenueType, int revenuePrice) {
+        this.revenueDate = revenueDate;
+        this.revenuePrice = revenuePrice;
+        this.revenueType = revenueType;
+        this.revenuePoint = revenuePoint;
     }
 
     public LocalDate getRevenueDate() {
@@ -52,67 +34,27 @@ public class RevenueDTO {
         this.revenueDate = revenueDate;
     }
 
-    public String getRevenueDay() {
-        return revenueDay;
+    public int getRevenuePrice() {
+        return revenuePrice;
     }
 
-    public void setRevenueDay(String revenueDay) {
-        this.revenueDay = revenueDay;
+    public void setRevenuePrice(int revenuePrice) {
+        this.revenuePrice = revenuePrice;
     }
 
-    public int getRevenueTotal() {
-        return revenueTotal;
+    public String getRevenueType() {
+        return revenueType;
     }
 
-    public void setRevenueTotal(int revenueTotal) {
-        this.revenueTotal = revenueTotal;
+    public void setRevenueType(String revenueType) {
+        this.revenueType = revenueType;
     }
 
-    public int getRevenueSale() {
-        return revenueSale;
+    public String getRevenuePoint() {
+        return revenuePoint;
     }
 
-    public void setRevenueSale(int revenueSale) {
-        this.revenueSale = revenueSale;
-    }
-
-    public int getRevenueActual() {
-        return revenueActual;
-    }
-
-    public void setRevenueActual(int revenueActual) {
-        this.revenueActual = revenueActual;
-    }
-
-    public int getReceiptNum() {
-        return receiptNum;
-    }
-
-    public void setReceiptNum(int receiptNum) {
-        this.receiptNum = receiptNum;
-    }
-
-    public int getReceiptPrice() {
-        return receiptPrice;
-    }
-
-    public void setReceiptPrice(int receiptPrice) {
-        this.receiptPrice = receiptPrice;
-    }
-
-    public int getReceiptValue() {
-        return receiptValue;
-    }
-
-    public void setReceiptValue(int receiptValue) {
-        this.receiptValue = receiptValue;
-    }
-
-    public int getSurtax() {
-        return surtax;
-    }
-
-    public void setSurtax(int surtax) {
-        this.surtax = surtax;
+    public void setRevenuePoint(String revenuePoint) {
+        this.revenuePoint = revenuePoint;
     }
 }
