@@ -5,17 +5,17 @@ public class RenewTokenDTO {
     private String token_type;
     private String access_token;
     private String id_token;
-    private Integer exprires_in;
+    private Integer expires_in;
     private String refresh_token;
     private Integer refresh_token_expires_in;
 
     public RenewTokenDTO() {}
 
-    public RenewTokenDTO(String token_type, String access_token, String id_token, Integer exprires_in, String refresh_token, Integer refresh_token_expires_in) {
+    public RenewTokenDTO(String token_type, String access_token, String id_token, Integer expires_in, String refresh_token, Integer refresh_token_expires_in) {
         this.token_type = token_type;
         this.access_token = access_token;
         this.id_token = id_token;
-        this.exprires_in = exprires_in;
+        this.expires_in = expires_in;
         this.refresh_token = refresh_token;
         this.refresh_token_expires_in = refresh_token_expires_in;
     }
@@ -44,12 +44,12 @@ public class RenewTokenDTO {
         this.id_token = id_token;
     }
 
-    public Integer getExprires_in() {
-        return exprires_in;
+    public Integer getExpires_in() {
+        return expires_in;
     }
 
-    public void setExprires_in(Integer exprires_in) {
-        this.exprires_in = exprires_in;
+    public void setExpires_in(Integer exprires_in) {
+        this.expires_in = exprires_in;
     }
 
     public String getRefresh_token() {
@@ -74,7 +74,7 @@ public class RenewTokenDTO {
                 "token_type='" + token_type + '\'' +
                 ", access_token='" + access_token + '\'' +
                 ", id_token='" + id_token + '\'' +
-                ", exprires_in=" + exprires_in +
+                ", expires_in=" + expires_in +
                 ", refresh_token='" + refresh_token + '\'' +
                 ", refresh_token_expires_in=" + refresh_token_expires_in +
                 '}';

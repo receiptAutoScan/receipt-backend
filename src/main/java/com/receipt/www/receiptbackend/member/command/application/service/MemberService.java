@@ -62,4 +62,10 @@ public class MemberService {
     }
 
 
+    public MemberDTO findMemberById(long memberId) {
+
+        Member member = memberRepository.findById(memberId).get();
+
+        return modelMapper.map(member, MemberDTO.class);
+    }
 }

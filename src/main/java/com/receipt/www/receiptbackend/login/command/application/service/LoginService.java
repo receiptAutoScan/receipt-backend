@@ -101,24 +101,12 @@ public class LoginService {
 
         foundmember = memberService.findBySocialId("KAKAO", String.valueOf(kakaoProfileDTO.getId()));
 
-        Date accessExpireDate = new Date(foundmember.getAccessTokenExpireDate());
+        foundmember.setRefreshToken(oauthToken.getRefresh_token());
+        foundmember.setAccessToken(oauthToken.getAccess_token());
+        foundmember.setRefreshTokenExpireDate(oauthToken.getRefresh_token_expires_in() + System.currentTimeMillis());
+        foundmember.setAccessTokenExpireDate(oauthToken.getExpires_in() + System.currentTimeMillis());
 
-        int memberNum = foundmember.getMemberNum();
-
-        if (accessExpireDate.before(new Date())) {
-            RenewTokenDTO renewedToken = renewKakaoToken(foundmember);
-
-            if(renewedToken.getRefresh_token() != null) {
-
-                foundmember.setRefreshToken(renewedToken.getRefresh_token());
-                foundmember.setAccessTokenExpireDate(renewedToken.getRefresh_token_expires_in());
-            }
-
-            foundmember.setAccessToken(renewedToken.getAccess_token());
-            foundmember.setAccessTokenExpireDate(renewedToken.getRefresh_token_expires_in() + System.currentTimeMillis());
-        }
-
-        return tokenProvider.generateMemberTokenDTO(foundmember, memberNum);
+        return tokenProvider.generateMemberTokenDTO(foundmember);
     }
 
     public RenewTokenDTO renewKakaoToken(MemberDTO foundmember) {
