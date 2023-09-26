@@ -24,9 +24,9 @@ spring:
       hibernate:
         '[format_sql]': true
         hbm2ddl:
-          auto: create
+          auto: update
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml

@@ -29,9 +29,8 @@ public class ExpenseController {
     }
 
     @PostMapping("/chatbot")
-    public void chatbotConnect(@RequestParam String message) {
-        System.out.println("message: " + message);
-        expenseService.chatbotConnect(message);
+    public String chatbotConnect(@RequestParam String message) {
+        return expenseService.chatbotConnect(message);
     }
 
     @PostMapping("/expense/list")

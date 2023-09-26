@@ -4,6 +4,7 @@ import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueDTO
 
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueMonYearDTO;
 import com.receipt.www.receiptbackend.revenue.command.domain.aggregate.entity.RevenueEntity;
+import com.receipt.www.receiptbackend.revenue.query.application.dto.RevenueMonthlyDTO;
 import com.receipt.www.receiptbackend.revenue.query.infra.mapper.RevenueMapper;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,12 @@ public class RevenueGetService {
         return revenueDTOList;
     }
 
-    public List<RevenueMonYearDTO> inquireExcelByMonth() {
+    public List<RevenueMonthlyDTO> inquireExcelByMonth() {
         return revenueMapper.getAllRevenuesByMonth();
     }
 
-    public List<RevenueMonYearDTO> inquireExcelByYear() throws ParseException {
-        return revenueMapper.getAllRevenuesByYear();
-    }
+//    public List<RevenueMonYearDTO> inquireExcelByYear() throws ParseException {
+//        return revenueMapper.getAllRevenuesByYear();
+//    }
 
 }

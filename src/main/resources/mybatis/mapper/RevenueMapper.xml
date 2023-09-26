@@ -5,22 +5,20 @@
     <select id="getAllRevenues" resultType="RevenueEntity">
         SELECT * FROM receipt.revenue
     </select>
-    <select id="getAllRevenuesByMonth" resultType="RevenueMonYearDTO">
-        SELECT date_format(revenue_date,'%Y-%m') As monYearDate,
-               sum(revenue_point) as monYearRevenuePoint,
-               sum(revenue_type) as monYearRevenueType,
-               sum(revenue_price) as monYearRevenuePrice,
+    <select id="getAllRevenuesByMonth" resultType="com.receipt.www.receiptbackend.revenue.query.application.dto.RevenueMonthlyDTO">
+        SELECT date_format(revenue_date,'%Y-%m') As transaction_month,
+               sum(revenue_price) as item_total_price
         FROM receipt.revenue
         group by date_format(revenue_date,'%Y-%m')
-        order by date_format(revenue_date,'%Y-%m');
+        order by transaction_month DESC;
     </select>
-    <select id="getAllRevenuesByYear" resultType="RevenueMonYearDTO">
-        SELECT date_format(revenue_date,'%Y') As monYearDate,
-               sum(revenue_point) as monYearRevenuePoint,
-               sum(revenue_type) as monYearRevenueType,
-               sum(revenue_price) as monYearRevenuePrice,
-        FROM receipt.revenue
-        group by date_format(revenue_date,'%Y')
-        order by date_format(revenue_date,'%Y');
-    </select>
+<!--    <select id="getAllRevenuesByYear" resultType="RevenueMonYearDTO">-->
+<!--        SELECT date_format(revenue_date,'%Y') As monYearDate,-->
+<!--               sum(revenue_point) as monYearRevenuePoint,-->
+<!--               sum(revenue_type) as monYearRevenueType,-->
+<!--               sum(revenue_price) as monYearRevenuePrice,-->
+<!--        FROM receipt.revenue-->
+<!--        group by date_format(revenue_date,'%Y')-->
+<!--        order by date_format(revenue_date,'%Y');-->
+<!--    </select>-->
 </mapper>
