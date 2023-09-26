@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Entity
 @Table(name = "expense")
@@ -45,9 +47,21 @@ public class ExpenseEntity {
     }
 
     public ExpenseEntity(CreateExpenseDTO createExpenseDTO) {
+        String formattedDate = createExpenseDTO.getTransactionDate().replaceAll("[^0-9]", "");
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(formattedDate);
+        if(formattedDate.length() != 8) {
+            sb.insert(4, "0");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        formatter = formatter.withLocale(Locale.KOREA);
+
         this.businessPartner = createExpenseDTO.getBusinessPartner();
-        this.transactionDate = createExpenseDTO.getTransactionDate();
-        this.itemPrice = createExpenseDTO.getItemPrice();
+        this.transactionDate = LocalDate.parse(sb, formatter);
+        this.itemPrice = Long.parseLong(createExpenseDTO.getItemPrice().replaceAll("[^0-9]", ""));
         this.itemName = createExpenseDTO.getItemName();
     }
 

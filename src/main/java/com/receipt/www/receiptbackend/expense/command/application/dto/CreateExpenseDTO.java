@@ -1,5 +1,6 @@
 package com.receipt.www.receiptbackend.expense.command.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,19 +11,22 @@ import java.util.Locale;
 @Getter
 @Setter
 public class CreateExpenseDTO {
+
+    @JsonProperty("거래처")
     private String businessPartner;
-    private LocalDate transactionDate;
-    private Long itemPrice;
+    @JsonProperty("날짜")
+    private String transactionDate;
+    @JsonProperty("금액")
+    private String itemPrice;
+    @JsonProperty("품목")
     private String itemName;
-
-    public CreateExpenseDTO(String businessPartner, String transactionDate, Long itemPrice, String itemName) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        formatter = formatter.withLocale(Locale.KOREA);
-
-        this.businessPartner = businessPartner;
-        this.transactionDate = LocalDate.parse(transactionDate, formatter);
-        this.itemPrice = itemPrice;
-        this.itemName = itemName;
+    public CreateExpenseDTO() {
     }
+
+//    public CreateExpenseDTO(String businessPartner, String transactionDate, Long itemPrice, String itemName) {
+//        this.businessPartner = businessPartner;
+//        this.transactionDate = transactionDate;
+//        this.itemPrice = itemPrice;
+//        this.itemName = itemName;
+//    }
 }
