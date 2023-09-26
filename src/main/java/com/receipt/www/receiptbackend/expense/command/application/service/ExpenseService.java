@@ -1,5 +1,9 @@
 package com.receipt.www.receiptbackend.expense.command.application.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.receipt.www.receiptbackend.expense.command.application.dto.CreateExpenseDTO;
 import com.receipt.www.receiptbackend.expense.command.application.dto.UpdateExpenseDTO;
 import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity;
@@ -63,6 +67,7 @@ public class ExpenseService {
         expenseRepository.deleteById(expenseId);
     }
 
+    @Transactional
     public void processReceiptImg(MultipartFile[] imageList) {
         // Create a RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
@@ -107,17 +112,34 @@ public class ExpenseService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(formData, headers);
 
         // Send a POST request to the server
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(
-//                "http://192.168.0.3:5000/upload",
-//                HttpMethod.POST,
-//                requestEntity,
-//                String.class
-//        );
-//
-//        // Retrieve the response body
-//        String response = responseEntity.getBody();
-//        System.out.println(response);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                "http://192.168.0.3:5000/upload",
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+
+        // Retrieve the response body
+        String response = responseEntity.getBody();
+        System.out.println(response);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        CreateExpenseDTO createExpenseDTO = null;
+
+        try {
+            createExpenseDTO = mapper.readValue(response, CreateExpenseDTO.class);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        ExpenseEntity expenseEntity = new ExpenseEntity(createExpenseDTO);
+
+        expenseRepository.save(expenseEntity);
     }
+
 
     public void chatbotConnect(String message) {
 
@@ -143,5 +165,7 @@ public class ExpenseService {
 
         String response = responseEntity.getBody();
         System.out.println(response);
+
+
     }
 }
