@@ -1,6 +1,8 @@
 package com.receipt.www.receiptbackend.expense.query.application.service;
 
 import com.receipt.www.receiptbackend.expense.command.domain.aggregate.entity.ExpenseEntity;
+import com.receipt.www.receiptbackend.expense.query.application.dto.ExpenseMonthlyDTO;
+import com.receipt.www.receiptbackend.expense.query.application.dto.ProfitDTO;
 import com.receipt.www.receiptbackend.expense.query.infra.mapper.ExpenseMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,13 @@ public class ExpenseGetService {
 
     public List<ExpenseEntity> getAllExpenses() {
         return expenseMapper.getAllExpenses();
+    }
+
+    public List<ExpenseMonthlyDTO> getMonthlyExpenses() {
+        return expenseMapper.getMonthlyExpenses();
+    }
+
+    public List<ProfitDTO> getProfit() {
+        return expenseMapper.getProfit();
     }
 }

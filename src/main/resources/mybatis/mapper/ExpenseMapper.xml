@@ -4,5 +4,25 @@
 <mapper namespace="com.receipt.www.receiptbackend.expense.query.infra.mapper.ExpenseMapper">
     <select id="getAllExpenses" resultType="ExpenseEntity">
         SELECT * FROM expense
+        ORDER BY transaction_date DESC
+    </select>
+    <select id="getMonthlyExpenses" resultType="com.receipt.www.receiptbackend.expense.query.application.dto.ExpenseMonthlyDTO">
+        SELECT
+            DATE_FORMAT(transaction_date, '%Y-%m') AS transaction_month,
+            SUM(item_price) AS item_total_price
+        FROM expense
+        GROUP BY transaction_month
+        ORDER BY transaction_month DESC
+    </select>
+    <select id="getProfit" resultType="com.receipt.www.receiptbackend.expense.query.application.dto.ProfitDTO">
+        SELECT
+            DATE_FORMAT(r.revenue_date, '%Y-%m') AS transaction_month,
+            SUM(r.revenue_price) AS revenue_total_price,
+            IFNULL(SUM(e.item_price), 0) AS expense_total_price,
+            SUM(r.revenue_price) - IFNULL(SUM(e.item_price), 0) AS profit
+        FROM revenue r
+                 LEFT JOIN expense e ON DATE_FORMAT(e.transaction_date, '%Y-%m') = DATE_FORMAT(r.revenue_date, '%Y-%m')
+        GROUP BY transaction_month
+        ORDER BY transaction_month DESC;
     </select>
 </mapper>

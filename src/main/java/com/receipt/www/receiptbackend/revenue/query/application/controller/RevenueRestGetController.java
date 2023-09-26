@@ -5,6 +5,7 @@ package com.receipt.www.receiptbackend.revenue.query.application.controller;
 
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueDTO;
 import com.receipt.www.receiptbackend.revenue.command.application.dto.RevenueMonYearDTO;
+import com.receipt.www.receiptbackend.revenue.query.application.dto.RevenueMonthlyDTO;
 import com.receipt.www.receiptbackend.revenue.query.application.service.RevenueGetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -38,19 +39,19 @@ public class RevenueRestGetController {
         return new ResponseEntity<>(revenueGetService.inquireExcelByDay(),headers, HttpStatus.OK);
     }
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/revenueMonth")
-    public ResponseEntity<List<RevenueMonYearDTO>> inquireExcelMonth() throws ParseException {
+    @GetMapping("/revenue/monthly")
+    public ResponseEntity<List<RevenueMonthlyDTO>> inquireExcelMonth() throws ParseException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
         return new ResponseEntity<>(revenueGetService.inquireExcelByMonth(),headers, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/revenueYear")
-    public ResponseEntity<List<RevenueMonYearDTO>> inquireExcelYear() throws ParseException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
-
-        return new ResponseEntity<>(revenueGetService.inquireExcelByYear(),headers, HttpStatus.OK);
-    }
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @GetMapping("/revenueYear")
+//    public ResponseEntity<List<RevenueMonYearDTO>> inquireExcelYear() throws ParseException {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
+//
+//        return new ResponseEntity<>(revenueGetService.inquireExcelByYear(),headers, HttpStatus.OK);
+//    }
 }
