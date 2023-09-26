@@ -5,15 +5,15 @@ public class AccessTokenDTO {
     private String grantType;
     private long memberId;
     private String accessToken;
-    private long accessTokenExpriesIn;
+    private long accessTokenExpires_in;
 
     public AccessTokenDTO() {}
 
-    public AccessTokenDTO(String grantType, long memberNum, String accessToken, long accessTokenExpriesIn) {
+    public AccessTokenDTO(String grantType, long memberNum, String accessToken, long accessTokenExpires_in) {
         this.grantType = grantType;
         this.memberId = memberNum;
         this.accessToken = accessToken;
-        this.accessTokenExpriesIn = accessTokenExpriesIn;
+        this.accessTokenExpires_in = accessTokenExpires_in;
     }
 
 
@@ -39,12 +39,12 @@ public class AccessTokenDTO {
         this.accessToken = accessToken;
     }
 
-    public long getAccessTokenExpriesIn() {
-        return accessTokenExpriesIn;
+    public long getAccessTokenExpires_in() {
+        return accessTokenExpires_in;
     }
 
-    public void setAccessTokenExpriesIn(long accessTokenExpriesIn) {
-        this.accessTokenExpriesIn = accessTokenExpriesIn;
+    public void setAccessTokenExpires_in(long accessTokenExpriesIn) {
+        this.accessTokenExpires_in = accessTokenExpriesIn;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AccessTokenDTO {
                 "grantType='" + grantType + '\'' +
                 ", memberId=" + memberId +
                 ", accessToken='" + accessToken + '\'' +
-                ", accessTokenExpriesIn=" + accessTokenExpriesIn +
+                ", accessTokenExpires_in=" + accessTokenExpires_in +
                 '}';
     }
 }

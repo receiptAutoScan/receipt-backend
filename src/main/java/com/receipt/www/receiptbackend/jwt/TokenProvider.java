@@ -36,7 +36,7 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public AccessTokenDTO generateMemberTokenDTO(MemberDTO foundmember, int memberNum) {
+    public AccessTokenDTO generateMemberTokenDTO(MemberDTO foundmember) {
         log.info("[TokenProvider] generateTokenDto Start ===================================");
 
         Claims claims = Jwts

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/api/v1")
 public class MemberController {
 
     private final MemberService memberService;
@@ -63,5 +63,21 @@ public class MemberController {
 
         return ResponseEntity.ok().headers(headers).body(new ResponseDTO(200, "인증 조회 성공", responseMap));
     }
+
+    @GetMapping("/members/{memberId}")
+    public ResponseEntity<ResponseDTO> findMemberById(@PathVariable long memberId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        MemberDTO foundMember = memberService.findMemberById(memberId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("member", foundMember);
+
+        return ResponseEntity.ok().headers(headers).body(new ResponseDTO(200, "조회성공", responseMap));
+    }
+
+
 
 }

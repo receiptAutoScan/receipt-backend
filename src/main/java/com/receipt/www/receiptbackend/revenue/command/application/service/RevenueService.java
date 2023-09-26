@@ -25,21 +25,21 @@ public class RevenueService {
     }
     @Transactional
     public void uploadExcel(List<Map<String , Object>> excelData) throws ParseException {
-
+//        System.out.println(excelData);
         for (int i=0; i<excelData.size()-1; i++){
             RevenueDTO dataToDTO = new RevenueDTO();
+            System.out.println(excelData.get(i));
+            excelData.get(i).replace(" ","");
+            System.out.println(excelData.get(i).get(" 일자 "));
+            System.out.println(excelData.get(i).get(" 거래처 "));
+            System.out.println(excelData.get(i).get("품목"));
+            System.out.println(excelData.get(i).get(" 금액 "));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.KOREA);
-            System.out.println(((String)excelData.get(i).get("년-월")).concat("-01"));
-            LocalDate date = LocalDate.parse(((String)excelData.get(i).get("년-월")).concat("-01"),formatter);
+            LocalDate date = LocalDate.parse(((String)excelData.get(i).get(" 일자 ")),formatter);
             dataToDTO.setRevenueDate(date);
-            dataToDTO.setRevenueDay(excelData.get(i).get("영업일수").toString());
-            dataToDTO.setRevenueTotal((int)excelData.get(i).get("총매출"));
-            dataToDTO.setRevenueSale((int)excelData.get(i).get("총할인"));
-            dataToDTO.setRevenueActual((int)excelData.get(i).get("실매출"));
-            dataToDTO.setReceiptNum((int)excelData.get(i).get("영수건수"));
-            dataToDTO.setReceiptPrice((int)excelData.get(i).get("영수단가"));
-            dataToDTO.setReceiptValue((int)excelData.get(i).get("가액"));
-            dataToDTO.setSurtax((int)excelData.get(i).get("부가세"));
+            dataToDTO.setRevenuePoint((String)excelData.get(i).get(" 거래처 "));
+            dataToDTO.setRevenueType((String)excelData.get(i).get("품목"));
+            dataToDTO.setRevenuePrice((int)excelData.get(i).get(" 금액 "));
 
             RevenueEntity revenueEntity = new RevenueEntity(dataToDTO);
 

@@ -23,32 +23,17 @@ public class RevenueEntity {
     @Column
     private LocalDate revenueDate;
     @Column
-    private String revenueDay;
+    private int revenuePrice;
     @Column
-    private int revenueTotal;
+    private String revenueType;
     @Column
-    private int revenueSale;
-    @Column
-    private int revenueActual;
-    @Column
-    private int receiptNum;
-    @Column
-    private int receiptPrice;
-    @Column
-    private int receiptValue;
-    @Column
-    private int surtax;
+    private String revenuePoint;
 
 
     public RevenueEntity(RevenueDTO revenueDTO) {
         this.revenueDate = revenueDTO.getRevenueDate();
-        this.revenueDay = revenueDTO.getRevenueDay();
-        this.revenueTotal = revenueDTO.getRevenueTotal();
-        this.revenueSale = revenueDTO.getRevenueSale();
-        this.revenueActual = revenueDTO.getRevenueActual();
-        this.receiptNum = revenueDTO.getReceiptNum();
-        this.receiptPrice = revenueDTO.getReceiptPrice();
-        this.receiptValue = revenueDTO.getReceiptValue();
-        this.surtax = revenueDTO.getSurtax();
+        this.revenuePoint = revenueDTO.getRevenuePoint();
+        this.revenueType = revenueDTO.getRevenueType();
+        this.revenuePrice = revenueDTO.getRevenuePrice();
     }
 }

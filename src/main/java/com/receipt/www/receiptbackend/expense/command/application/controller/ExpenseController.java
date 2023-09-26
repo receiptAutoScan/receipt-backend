@@ -18,39 +18,20 @@ import java.util.List;
 @RestController
 public class ExpenseController {
     private final ExpenseService expenseService;
-    private final WebClient webClient;
 
-    public ExpenseController(ExpenseService expenseService, WebClient.Builder webClientBuilder) {
+    public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
     }
 
     @PostMapping("/expense")
-    public void processExpenseReceiptImg(@RequestParam("images") List<MultipartFile> imageList) {
-        System.out.println("imageList: " + imageList);
+    public void processExpenseReceiptImg(@RequestParam("images") MultipartFile[] imageList) {
+        expenseService.processReceiptImg(imageList);
+    }
 
-        // image 그대로 보냄
-//        Mono<String> returnedData = webClient
-//                .post()
-//                .uri("/upload")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(BodyInserters.fromValue(imageList))
-//                .retrieve()
-//                .onStatus(
-//                        HttpStatus::is4xxClientError,
-//                        clientResponse -> {
-//                            return Mono.error(new RuntimeException("Client Error: " + clientResponse.statusCode()));
-//                        }
-//                ).onStatus(
-//                        HttpStatus::is5xxServerError,
-//                        clientResponse -> {
-//                            return Mono.error(new RuntimeException("Server Error: " + clientResponse.statusCode()));
-//                        }
-//                )
-//                .bodyToMono(String.class);
-//
-//        // 받아온 사항들 insert 처리
-//        createExpenseList(new ArrayList<>());
+    @PostMapping("/chatbot")
+    public void chatbotConnect(@RequestParam String message) {
+        System.out.println("message: " + message);
+        expenseService.chatbotConnect(message);
     }
 
     @PostMapping("/expense/list")
