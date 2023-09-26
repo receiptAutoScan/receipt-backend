@@ -141,7 +141,7 @@ public class ExpenseService {
     }
 
 
-    public void chatbotConnect(String message) {
+    public String chatbotConnect(String message) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -166,6 +166,6 @@ public class ExpenseService {
         String response = responseEntity.getBody();
         System.out.println(response);
 
-
+        return response;
     }
 }
